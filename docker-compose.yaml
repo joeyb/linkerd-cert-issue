@@ -1,0 +1,20 @@
+version: '2'
+
+services:
+  hello:
+    image: nginx
+    volumes:
+    - ./www:/usr/share/nginx/html:ro
+
+  # linkerd
+  l5d:
+    image: buoyantio/linkerd:nightly
+    ports:
+    - "4140:4140"
+    - "4141:4141"
+    - "9990:9990"
+    volumes:
+    - ./linkerd.yaml:/io.buoyant/linkerd.yaml:ro
+    - ./certs:/io.buoyant/certs
+    command: >
+      /io.buoyant/linkerd.yaml
